@@ -14,7 +14,7 @@ namespace JoesProject.Controllers
     {
         ApplicationDbContext context = new ApplicationDbContext();
 
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         
 
             //
@@ -140,6 +140,8 @@ namespace JoesProject.Controllers
         {
             var account = new AccountController();
             ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            
+            //ToDo handle null not allowed Exception
 
             if (account.UserManager.IsInRole(user.Id, RoleName))  
             {
