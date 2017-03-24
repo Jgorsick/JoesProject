@@ -108,7 +108,7 @@ namespace JoesProject.Controllers
             
             ViewBag.ResultMessage = "Role created successfully !";
             
-            // PrePopulate roles for the view dropdown
+            // prepopulat roles for the view dropdown
             var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
             ViewBag.Roles = list;   
 
@@ -140,33 +140,23 @@ namespace JoesProject.Controllers
         {
             var account = new AccountController();
             ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-
+            
             //ToDo handle null not allowed Exception
-            try
-            {
-                if (account.UserManager.IsInRole(user.Id, RoleName))
-                {
-                    account.UserManager.RemoveFromRole(user.Id, RoleName);
-                    ViewBag.ResultMessage = "Role removed from this user successfully !";
-                }
-                else
-                {
-                    ViewBag.ResultMessage = "This user doesn't belong to selected role.";
-                }
-                // prepopulat roles for the view dropdown
-                var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
-                ViewBag.Roles = list;
 
-                return View("ManageUserRoles");
-            }
-            catch (System.Exception)
+            if (account.UserManager.IsInRole(user.Id, RoleName))  
             {
-
-                throw;
+                account.UserManager.RemoveFromRole(user.Id, RoleName);
+                ViewBag.ResultMessage = "Role removed from this user successfully !";
             }
+            else
+            {
+                ViewBag.ResultMessage = "This user doesn't belong to selected role.";
+            }
+            // prepopulat roles for the view dropdown
+            var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = list;
+
+            return View("ManageUserRoles");
         }
-
-            }
-           
     }
-
+}
