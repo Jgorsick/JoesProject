@@ -14,7 +14,7 @@ namespace JoesProject.Controllers
     {
         ApplicationDbContext context = new ApplicationDbContext();
 
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         
 
             //
@@ -102,13 +102,26 @@ namespace JoesProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RoleAddToUser(string UserName, string RoleName)
         {
-            ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-            var account = new AccountController();
-            account.UserManager.AddToRole(user.Id, RoleName);
+            try
+            {
+                ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+           
+                var account = new AccountController();
+                account.UserManager.AddToRole(user.Id, RoleName);
+                ViewBag.ResultMessage = "Role created successfully !";
+
+            }
+            catch
+            {
+
+                ViewBag.ResultMessage = "Looks like you forgot to enter a user or select a role!";
+            }
             
-            ViewBag.ResultMessage = "Role created successfully !";
+            
+           
             
             // prepopulat roles for the view dropdown
+
             var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
             ViewBag.Roles = list;   
 
@@ -121,10 +134,20 @@ namespace JoesProject.Controllers
         {            
             if (!string.IsNullOrWhiteSpace(UserName))
             {
-                ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                var account = new AccountController();
+                try
+                {
+                    ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                    var account = new AccountController();
 
-                ViewBag.RolesForThisUser = account.UserManager.GetRoles(user.Id);
+                    ViewBag.RolesForThisUser = account.UserManager.GetRoles(user.Id);
+                }
+                catch (Exception)
+                {
+
+                    ViewBag.ResultMessage = "Looks like you forgot to enter a user!";
+
+                }
+
 
                 // prepopulat roles for the view dropdown
                 var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
@@ -141,20 +164,39 @@ namespace JoesProject.Controllers
             var account = new AccountController();
             ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
-            if (account.UserManager.IsInRole(user.Id, RoleName))  
+            //ToDo handle null not allowed Exception
+            try
             {
-                account.UserManager.RemoveFromRole(user.Id, RoleName);
-                ViewBag.ResultMessage = "Role removed from this user successfully !";
+                if (account.UserManager.IsInRole(user.Id, RoleName))
+
+                {
+                    account.UserManager.RemoveFromRole(user.Id, RoleName);
+                    ViewBag.ResultMessage = "Role removed from this user successfully !";
+                }
+                else
+                {
+                    ViewBag.ResultMessage = "This user doesn't belong to selected role.";
+                }
             }
-            else
+                  
+            
+
+            catch
             {
-                ViewBag.ResultMessage = "This user doesn't belong to selected role.";
+                ViewBag.ResultMessage = "Looks like you forgot to enter a user or select a role!";
+
             }
+
+
+
+
+
             // prepopulat roles for the view dropdown
             var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
             ViewBag.Roles = list;
 
             return View("ManageUserRoles");
         }
+        
     }
 }
