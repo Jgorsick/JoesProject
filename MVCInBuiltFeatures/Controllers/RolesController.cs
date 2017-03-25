@@ -14,7 +14,7 @@ namespace JoesProject.Controllers
     {
         ApplicationDbContext context = new ApplicationDbContext();
 
-        //[Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         
 
             //
@@ -140,19 +140,30 @@ namespace JoesProject.Controllers
                     var account = new AccountController();
 
                     ViewBag.RolesForThisUser = account.UserManager.GetRoles(user.Id);
+
                 }
+
                 catch (Exception)
                 {
 
-                    ViewBag.ResultMessage = "Looks like you forgot to enter a user!";
-
+                    ViewBag.ResultMessage = "No user by that name in database!";
                 }
 
 
-                // prepopulat roles for the view dropdown
-                var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
-                ViewBag.Roles = list;            
+
             }
+
+            else
+
+            {
+                ViewBag.ResultMessage = "Looks like you forgot to enter a user!";
+
+            }
+
+
+            // prepopulat roles for the view dropdown
+            var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = list;
 
             return View("ManageUserRoles");
         }
@@ -163,8 +174,6 @@ namespace JoesProject.Controllers
         {
             var account = new AccountController();
             ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-            
-            //ToDo handle null not allowed Exception
 
             //ToDo handle null not allowed Exception
             try
