@@ -163,6 +163,8 @@ namespace JoesProject.Controllers
         {
             var account = new AccountController();
             ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            
+            //ToDo handle null not allowed Exception
 
             //ToDo handle null not allowed Exception
             try
