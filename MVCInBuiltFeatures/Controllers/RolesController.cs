@@ -14,7 +14,7 @@ namespace JoesProject.Controllers
     {
         ApplicationDbContext context = new ApplicationDbContext();
 
-        [Authorize(Roles = "Administrator")]
+            [Authorize(Roles = "Administrator")]
         
 
             //
