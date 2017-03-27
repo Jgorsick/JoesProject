@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Helpers;
+using System;
 
 namespace JoesProject.Models
 {
@@ -26,6 +28,8 @@ namespace JoesProject.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+
     }
 
     public class LoginViewModel
@@ -59,5 +63,36 @@ namespace JoesProject.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Your Child's School")]
+        public string School { get; set; }
+
+        [Required]
+        [Display(Name = "Street Address")]
+        public String StreetAddress { get; set; }
+
+        [Required]
+        [Display(Name = "City")]
+        public String City { get; set; }
+
+        [Required]
+        [DataType(DataType.PostalCode)]
+        [Display(Name = "Zip Code")]
+        public String ZipCode { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Mobile Phone Number")]
+        public String MobilePhone { get; set; }
+
+
+
+
     }
 }
