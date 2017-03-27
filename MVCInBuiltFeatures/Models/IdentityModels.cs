@@ -6,11 +6,11 @@ namespace JoesProject.Models
     public class ApplicationUser : IdentityUser
     {
         
-        internal string School;
-        internal string StreetAddress;
-        internal string City;
-        internal string ZipCode;
-        internal string MobilePhone;
+        public string School { get; set; }
+        public string StreetAddress { get; set; }
+        public string City { get; set; }
+        public int ZipCode { get; set; }
+        public string MobilePhone { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

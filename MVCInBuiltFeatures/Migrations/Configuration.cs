@@ -9,7 +9,7 @@ namespace MVCInBuiltFeatures.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(JoesProject.Models.ApplicationDbContext context)

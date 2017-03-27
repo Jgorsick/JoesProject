@@ -78,7 +78,7 @@ namespace JoesProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email, School = model.School, StreetAddress = model.StreetAddress, City = model.City, ZipCode = model.ZipCode, MobilePhone = model.MobilePhone  };
+                var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email, School = model.School, StreetAddress = model.StreetAddress, City = model.City, ZipCode = model.ZipCode, MobilePhone = model.MobilePhone };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

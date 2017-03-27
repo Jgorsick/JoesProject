@@ -75,21 +75,21 @@ namespace JoesProject.Models
 
         [Required]
         [Display(Name = "Street Address")]
-        public String StreetAddress { get; set; }
+        public string StreetAddress { get; set; }
 
         [Required]
         [Display(Name = "City")]
-        public String City { get; set; }
+        public string City { get; set; }
 
         [Required]
         [DataType(DataType.PostalCode)]
         [Display(Name = "Zip Code")]
-        public String ZipCode { get; set; }
+        public int ZipCode { get; set; }
 
         [Required]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Mobile Phone Number")]
-        public String MobilePhone { get; set; }
+        public string MobilePhone { get; set; }
 
 
 
